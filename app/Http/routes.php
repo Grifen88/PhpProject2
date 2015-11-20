@@ -11,11 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-    //return view('main/index');
-    //return 'Hello!';
-});
+Route::get('/', 'MainController@main');
 
 Route::get('contact', function() {
 	return view('contact');

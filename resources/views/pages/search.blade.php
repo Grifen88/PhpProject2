@@ -21,8 +21,10 @@
 			//logic to check input
 
 		    $("#searchButton").click(function() {
+		    	var searchterm = $('#search').val(); 
+
 		        $("#searchpartial").load("partial_search.blade.php");
-		        window.alert("Button was pressed!");
+		        window.alert(searchterm);
 		    });
 		</script>
 

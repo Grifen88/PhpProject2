@@ -18,6 +18,9 @@ Reservation
 		  	<div id="home" class="tab-pane fade in active">
 		    	<h3>HOME</h3>
 		    	<p>Display list of available cruises here.</p>
+
+		    	{!! Form::label('cruise_form', 'Available cruise:') !!}
+				{!! Form::text('cruise_form', null, ['class' => 'form-control']) !!}
 		  	</div>
 		  	<div id="menu1" class="tab-pane fade">
 		    	<h3>Menu 1</h3>

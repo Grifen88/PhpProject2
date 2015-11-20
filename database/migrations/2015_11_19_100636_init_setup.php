@@ -37,6 +37,19 @@ class InitSetup extends Migration
             //TODO: reference a user id from MS
         });
 
+        Schema::create('class', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('ship_cabin_id');
+            $table->integer('capacity')->unsigned();
+            $table->integer('ship_id');
+            $table->string('location');
+            $table->timestamp('created_at');
+
+            //foreign keys
+            $table->foreign('ship_id')->references('ship')->on('id');
+            $table->foreign('ship_cabin_id')->references('ship_cabin')->on('id');
+        });
+
         Schema::create('cabin', function (Blueprint $table) {
             $table->increments('id');
             $table->string('ship_cabin_id');
