@@ -18,9 +18,9 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="{!! URL::asset('js/jquery-1.11.3.js') !!}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="{!! URL::asset('js/bootstrap.min.js') !!}"></script>
     </head>
         
     <body>
@@ -39,17 +39,13 @@
                     <ul class="nav navbar-nav">
                         <li class="active">{!! link_to_action('MainController@main', 'Home') !!}</li>
                         <li>{!! link_to_action('MainController@search', 'Search') !!}</li>
-                        <li><a href="#contact">Cruises</a></li>
+                        <li>{!! link_to_action('CruiseController@index', 'Cruises') !!}</li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reservations <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>{!! link_to_action('ReservationController@index', 'View Existing Reservations') !!}</li>
                                 <li>{!! link_to_action('ReservationController@create', 'Create New Reservations') !!}</li>
                                 <li>{!! link_to_action('ReservationController@update', 'Update Existing Reservations') !!}</li>
-                                <li role="separator" class="divider"></li>
-                                <li class="dropdown-header">Nav header</li>
-                                <li><a href="#">Separated link</a></li>
-                                <li><a href="#">One more separated link</a></li>
                             </ul>
                         </li>
                     </ul>

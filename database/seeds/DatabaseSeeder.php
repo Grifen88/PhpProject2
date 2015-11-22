@@ -16,7 +16,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call(PortSeeder::class);
         $this->call(ShipSeeder::class);
-
+        $this->call(CruiseSeeder::class);
+        $this->call(CabinSeeder::class);
+        
         Model::reguard();
     }
 }

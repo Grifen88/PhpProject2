@@ -16,7 +16,7 @@ class PortSeeder extends Seeder
         $faker = Faker::create();
 
         foreach (range(1,30) as $index) {
-        	DB::table('port')->insert([
+        	DB::table('ports')->insert([
         			'name' => $faker->city,
         			'country' => $faker->country,
         			'created_at' => $faker->dateTime,

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Input;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Cruise;
+use App\Port;
 
 class MainController extends Controller
 {
@@ -22,8 +25,13 @@ class MainController extends Controller
     //to seed database
 
     public function search_result() {
-    	$cruises = Cruises::all();
+        $searchterm = Input::get('searchterm');
 
-    	return view('partial.partial_search');
+    	$cruises = Cruise::where('name', 'LIKE', '%'.$searchterm.'%')->get(); 
+        //$cruises = Cruise::first(); 
+
+        $port = Port::all();
+
+    	return view('partial.partial_search', ['cruises' => $cruises, 'port' => $port]);
     }
 }

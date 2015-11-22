@@ -23,12 +23,29 @@
 		    $("#searchButton").click(function() {
 		    	var searchterm = $('#search').val(); 
 
-		        $("#searchpartial").load("partial_search.blade.php");
-		        window.alert(searchterm);
+		    	if (!searchterm) {
+		    		window.alert("Search cannot be blank!");
+		    		return false;
+		    	}
+
+		    	var request = $.ajax({
+            		type: "GET",
+            		url : "/searchresult",
+            		data: { searchterm: searchterm }
+		    	});
+
+		    	request.done(function( msg ) {
+					$("#search_partial").html(msg);
+				});
+
+				request.fail(function( jqXHR, textStatus ) {
+					alert( "Request failed: " + textStatus );
+				});
 		    });
 		</script>
 
 	{!! Form::close() !!}
-
-	@include('partial.partial_search')
+	<div id="search_partial">
+		@include('partial.partial_search')
+	</div>
 @stop

@@ -19,8 +19,12 @@ Route::get('contact', function() {
 
 Route::get('main', 'MainController@main');
 Route::get('search', 'MainController@search');
-Route::get('cruises', function() {
-	return view('pages.cruises');
-});
+
+Route::get('searchresult', 'MainController@search_result');
+Route::get('getallcabins', 'ReservationController@create_helper_cabin');
+Route::get('getpassengerform', 'ReservationController@create_helper_passenger');
+
+Route::get('cruises', 'CruiseController@index');
+Route::get('cruises/{id}', 'CruiseController@show');
 
 Route::resource('reservation', 'ReservationController');

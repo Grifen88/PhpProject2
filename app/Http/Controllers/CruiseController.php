@@ -3,18 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Input;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Cruise;
-use App\Passenger;
+use App\Port;
 use App\Cabin;
-use App\Reservation;
-use App\Ship;
+use App\Cruise_Cabin_Type;
 
-class ReservationController extends Controller
+class CruiseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +21,9 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        return view('pages.reservation');
+        $cruises = Cruise::all();
+        $port = Port::all();
+        return view("pages.cruises", compact('cruises', 'port'));
     }
 
     /**
@@ -32,24 +32,8 @@ class ReservationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
-        $cruises = Cruise::all();
-
-        return view('pages.reservation_create')->with('cruises', $cruises);
-    }
-
-    public function create_helper_cabin() {
-        $searchterm = Input::get('cruiseid');
-
-        $cruise = Cruise::findOrFail($searchterm + 1);
-        $ship = Ship::findOrFail($cruise->ship_id);
-        $cabins = Cabin::where('ship_id', $ship->id)->get();
-
-        return view('partial.partial_cabin')->with('cabins', $cabins);    
-    }
-
-    public function create_helper_passenger() {
-        return view('partial.partial_passenger');    
+    {
+        //
     }
 
     /**
@@ -60,9 +44,7 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        $input = \Request::all();
-
-        return $input;
+        //
     }
 
     /**
@@ -72,8 +54,13 @@ class ReservationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        $cruise = Cruise::find($id);
+        $cabins = Cabin::where('ship_id', $cruise->ship_id)->get();
+        $port = Port::all();
+        $cabin_type = Cruise_Cabin_Type::where('cruise_id', $cruise->id)->get();
+
+        return view("pages.cruises_show", compact('cruise', 'cabins', 'port', 'cabin_type'));
     }
 
     /**

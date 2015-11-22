@@ -12,87 +12,84 @@ class InitSetup extends Migration
      */
     public function up()
     {
-        Schema::create('port', function (Blueprint $table) {
+        Schema::create('ports', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('country');
             $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
         });
 
-        Schema::create('ship', function (Blueprint $table) {
+        Schema::create('ships', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('model');
             $table->string('reg_no');
             $table->integer('capacity')->unsigned();
             $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
         });
 
-        Schema::create('customer', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
             //$table->string('passwordhash');
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
 
             //TODO: reference a user id from MS
         });
 
-        Schema::create('class', function (Blueprint $table) {
+        Schema::create('cabins', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ship_cabin_id');
+            $table->integer('cruise_cabin_id');
             $table->integer('capacity')->unsigned();
             $table->integer('ship_id');
             $table->string('location');
             $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
+            $table->boolean('occupied')->default('false');
 
             //foreign keys
-            $table->foreign('ship_id')->references('ship')->on('id');
-            $table->foreign('ship_cabin_id')->references('ship_cabin')->on('id');
+            $table->foreign('ship_id')->references('ships')->on('id');
+            $table->foreign('cruise_cabin_id')->references('cruise_cabin_type')->on('id');
         });
 
-        Schema::create('cabin', function (Blueprint $table) {
+        Schema::create('cruise_cabin_type', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ship_cabin_id');
-            $table->integer('capacity')->unsigned();
-            $table->integer('ship_id');
-            $table->string('location');
-            $table->timestamp('created_at');
-
-            //foreign keys
-            $table->foreign('ship_id')->references('ship')->on('id');
-            $table->foreign('ship_cabin_id')->references('ship_cabin')->on('id');
-        });
-
-        Schema::create('ship_cabin', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('class');
+            $table->string('type');
             $table->integer('price');
-            $table->integer('ship_id');
+            $table->integer('cruise_id');
             $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
 
             //foreign keys
-            $table->foreign('ship_id')->references('ship')->on('id');
+            $table->foreign('cruise_id')->references('cruises')->on('id');
         });
 
-        Schema::create('reservation', function (Blueprint $table) {
+        Schema::create('reservations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('cruise_id');
             $table->integer('cabin_id');
             $table->integer('customer_id');
             $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
 
             //foreign keys
-            $table->foreign('cruise_id')->references('cruise')->on('id');
-            $table->foreign('customer_id')->references('customer')->on('id');
-            $table->foreign('cabin_id')->references('cabin')->on('id');
+            $table->foreign('cruise_id')->references('cruises')->on('id');
+            $table->foreign('customer_id')->references('customers')->on('id');
+            $table->foreign('cabin_id')->references('cabins')->on('id');
         });
 
-        Schema::create('invoice', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('total');
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
         });
 
-        Schema::create('passenger', function (Blueprint $table) {
+        Schema::create('passengers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('title');
@@ -101,30 +98,35 @@ class InitSetup extends Migration
             $table->string('address_line_1');
             $table->string('address_line_2');
             $table->string('address_line_3');
+            $table->string('state');
             $table->string('country');
             $table->string('occupation');
             $table->integer('reservation_id');
             $table->integer('cabin_id');
             $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
 
             //foreign keys
-            $table->foreign('reservation_id')->references('reservation')->on('id');
-            $table->foreign('cabin_id')->references('cabin')->on('id');
+            $table->foreign('reservation_id')->references('reservations')->on('id');
+            $table->foreign('cabin_id')->references('cabins')->on('id');
         });
 
-        Schema::create('cruise', function (Blueprint $table) {
+        Schema::create('cruises', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('origin');
             $table->integer('destination');
+            $table->dateTime('departure');
+            $table->dateTime('arrival');
             $table->integer('capacity')->unsigned();
             $table->integer('ship_id');
             $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
 
             //foreign keys
-            $table->foreign('ship_id')->references('ship')->on('id');
-            $table->foreign('origin')->references('port')->on('id');
-            $table->foreign('destination')->references('port')->on('id');
+            $table->foreign('ship_id')->references('ships')->on('id');
+            $table->foreign('origin')->references('ports')->on('id');
+            $table->foreign('destination')->references('ports')->on('id');
         });
     }
 
@@ -135,14 +137,14 @@ class InitSetup extends Migration
      */
     public function down()
     {
-        Schema::drop('passenger');
-        Schema::drop('cruise');
-        Schema::drop('reservation');
-        Schema::drop('ship_cabin');
-        Schema::drop('cabin');
-        Schema::drop('ship');
-        Schema::drop('customer');
-        Schema::drop('invoice');
-        Schema::drop('port');
+        Schema::drop('passengers');
+        Schema::drop('cruises');
+        Schema::drop('reservations');
+        Schema::drop('cruise_cabin_type');
+        Schema::drop('cabins');
+        Schema::drop('ships');
+        Schema::drop('customers');
+        Schema::drop('invoices');
+        Schema::drop('ports');
     }
 }

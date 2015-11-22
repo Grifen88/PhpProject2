@@ -16,7 +16,7 @@ class ShipSeeder extends Seeder
         $faker = Faker::create();
 
         foreach (range(1,10) as $index) {
-        	DB::table('ship')->insert([
+        	DB::table('ships')->insert([
         			'name' => $faker->city,
         			'model' => $faker->city,
         			'reg_no' => $faker->numberBetween (1000000, 9999999),
