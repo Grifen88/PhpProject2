@@ -30,17 +30,6 @@ class InitSetup extends Migration
             $table->timestamp('updated_at')->nullable();
         });
 
-        Schema::create('customers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            //$table->string('passwordhash');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at')->nullable();
-
-            //TODO: reference a user id from MS
-        });
-
         Schema::create('cabins', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('cruise_cabin_id');
@@ -78,7 +67,7 @@ class InitSetup extends Migration
 
             //foreign keys
             $table->foreign('cruise_id')->references('cruises')->on('id');
-            $table->foreign('customer_id')->references('customers')->on('id');
+            $table->foreign('customer_id')->references('users')->on('id');
             $table->foreign('cabin_id')->references('cabins')->on('id');
         });
 
@@ -92,7 +81,7 @@ class InitSetup extends Migration
         Schema::create('passengers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('title');
+            $table->integer('title');
             $table->integer('age');
             $table->integer('sex');
             $table->string('address_line_1');
@@ -101,13 +90,11 @@ class InitSetup extends Migration
             $table->string('state');
             $table->string('country');
             $table->string('occupation');
-            $table->integer('reservation_id');
             $table->integer('cabin_id');
             $table->timestamp('created_at');
             $table->timestamp('updated_at')->nullable();
 
             //foreign keys
-            $table->foreign('reservation_id')->references('reservations')->on('id');
             $table->foreign('cabin_id')->references('cabins')->on('id');
         });
 
@@ -143,7 +130,6 @@ class InitSetup extends Migration
         Schema::drop('cruise_cabin_type');
         Schema::drop('cabins');
         Schema::drop('ships');
-        Schema::drop('customers');
         Schema::drop('invoices');
         Schema::drop('ports');
     }

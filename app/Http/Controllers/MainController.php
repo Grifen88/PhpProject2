@@ -13,6 +13,7 @@ use App\Port;
 class MainController extends Controller
 {
     public function main() {
+
     	return view('pages.index')->with('title', 'Welcome');
     	//return 'test';
     }

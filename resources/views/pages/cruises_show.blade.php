@@ -17,6 +17,6 @@
 		<p> {{ $cabin_type->where('id', $cabin->cruise_cabin_id)->pluck('type')->first() }} </p>
 		<p> Location: {{ $cabin->location }} </p>
 		<p> Available room: {{ $cabin->capacity}} </p>
-		<p> Price: RM{{ $cabin_type->where('id', $cabin->cruise_cabin_id)->pluck('price')->first() }} </p>
+		<p> Price: RM {{ $cabin_type->where('id', $cabin->cruise_cabin_id)->pluck('price')->first() }} </p>
 	@endforeach
 @stop

@@ -12,6 +12,7 @@ Reservation
 		  		<li class="active"><a data-toggle="tab" href="#cruisetab">Cruise</a></li>
 		  		<li><a data-toggle="tab" href="#cabintab">Cabins</a></li>
 		  		<li><a data-toggle="tab" href="#passengertab">Passengers</a></li>
+		  		<li><a data-toggle="tab" href="#confirmationtab">Confirmation</a></li>
 			</ul>
 
 		<div id="tabs_content" class="tab-content">
@@ -21,7 +22,12 @@ Reservation
 
 		    		@if(isset($cruises))
 					{!! Form::label('cruise_form', 'Cruise') !!}
-					{!! Form::select('cruise_form', array_pluck($cruises, 'name'), array_pluck($cruises, 'id')) !!}
+					<?php $options = [];
+					foreach ($cruises as $cruise) {
+						$a = ['value' => $cruise->id, 'display' => $cruise->name, 'class' => ''];
+					   	array_push($options, $a) ;
+					}
+					echo Form::fancySelect('cruise_form', $options ); ?>
 					@endif
 
 				<button class="tab-button btn btn-primary btn-sm" type="button" id="selectCruiseBtn"> Select </button>
@@ -33,6 +39,10 @@ Reservation
 		  	<div id="passengertab" class="tab-pane fade">
 		    	<h3>Passenger</h3>
 		    	<p>Please enter passenger details</p>
+		  	</div>
+		  	<div id="confirmationtab" class="tab-pane fade">
+		    	<h3>Confirmation</h3>
+		    	<p>Confirmation details here.</p>
 		  	</div>
 
 		  	<script>

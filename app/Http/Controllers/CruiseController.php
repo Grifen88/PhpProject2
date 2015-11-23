@@ -59,7 +59,6 @@ class CruiseController extends Controller
         $cabins = Cabin::where('ship_id', $cruise->ship_id)->get();
         $port = Port::all();
         $cabin_type = Cruise_Cabin_Type::where('cruise_id', $cruise->id)->get();
-
         return view("pages.cruises_show", compact('cruise', 'cabins', 'port', 'cabin_type'));
     }
 

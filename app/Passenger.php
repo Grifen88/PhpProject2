@@ -23,5 +23,5 @@ class Passenger extends Model
     	'occupation',
     	'reservation_id',
     	'cabin_id'
-    )
+    );
 }

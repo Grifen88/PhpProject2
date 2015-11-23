@@ -49,6 +49,17 @@
                             </ul>
                         </li>
                     </ul>
+                    @if (\Auth::User())
+                        <span class="nav-text navbar-right" style="color:beige;">
+                        <p class="nav-text navbar-right" style="color:white; padding-left:20px;">Welcome, {{ \Auth::User()->name }}!</p>
+                        <a href="{{ url('auth/logout') }}">Logout</a>    
+                        </span>
+                    @else
+                        <span class="nav-text navbar-right" style="color:beige;">
+                        <p class="nav-text navbar-right" style="color:white; padding-left:20px;">Welcome, Guest!</p>
+                        <a href="{{ url('auth/login') }}">Login</a>   
+                        </span>
+                    @endif
                 </div><!--/.nav-collapse -->
             </div>
         </nav>

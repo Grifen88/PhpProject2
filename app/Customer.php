@@ -13,4 +13,6 @@ class Customer extends Model
     public function passenger() {
     	return $this->hasManyThrough('App\Passenger', 'App\Reservation');
     }
+
+    protected $table = "users";
 }
